@@ -23,9 +23,13 @@ const message = document.querySelector('#message');
 const submitButton = document.querySelector('#submit-button');
 const reactionModal = document.querySelector('#reaction-modal');
 const reactionImage = document.querySelector('#reaction-image');
+const reactionCopy = document.querySelector('#reaction-copy');
+const reactionTitle = document.querySelector('#reaction-title');
+const reactionNote = document.querySelector('#reaction-note');
 const selected = new Set();
 const solved = new Set();
 const eggStorageKey = 'connections-easter-eggs';
+const eggCompletionStorageKey = 'connections-easter-eggs-complete';
 const viewStorageKey = 'connections-active-view';
 const collectedEggs = new Set(JSON.parse(localStorage.getItem(eggStorageKey) || '[]'));
 const hintButton = document.querySelector('#hint-button');
@@ -54,14 +58,18 @@ function createScatteredWords(words) {
   return scattered;
 }
 
-function showReaction(imageName) {
+function showReaction(imageName, title = '', note = '') {
   reactionImage.src = imageName;
+  reactionTitle.textContent = title;
+  reactionNote.textContent = note;
+  reactionCopy.hidden = !title && !note;
   reactionModal.hidden = false;
 }
 
 function closeReaction() {
   reactionModal.hidden = true;
   reactionImage.src = '';
+  reactionCopy.hidden = true;
 }
 
 function renderEggProgress() {
@@ -81,6 +89,10 @@ function collectEgg(egg) {
   renderEggProgress();
   hintPanel.hidden = false;
   hintButton.setAttribute('aria-expanded', 'true');
+  if (collectedEggs.size === 7 && !localStorage.getItem(eggCompletionStorageKey)) {
+    localStorage.setItem(eggCompletionStorageKey, 'true');
+    showReaction('elami.png', 'Bravo TOOO', 'Somethin I started when I came here and finished a couple of weeks ago');
+  }
 }
 
 function setView(view) {
