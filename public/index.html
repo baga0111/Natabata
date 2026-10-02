@@ -19,6 +19,7 @@
         </a>
         <nav class="game-nav" aria-label="თამაშები">
           <button class="nav-button active" type="button" data-view="connections">Connections</button>
+          <button class="nav-button" type="button" data-view="salad">Word Salad</button>
           <button class="nav-button" type="button" data-view="wordle">Wordle</button>
         </nav>
         <div class="topbar-actions">
@@ -53,10 +54,34 @@
       </section>
       </section>
 
+      <section id="salad-view" class="view" aria-labelledby="salad-title" hidden>
+        <div class="intro">
+          <div>
+            <p class="eyebrow">თამაში 002 <span aria-hidden="true">•</span> სიტყვების სალათი</p>
+            <h1 id="salad-title">ააწყვე სიტყვა.</h1>
+            <p class="subtitle">შეაერთე მეზობელი ასოები და იპოვე ცხოველების შვილები.</p>
+          </div>
+        </div>
+        <section class="salad-game" aria-label="Word Salad თამაში">
+          <div class="salad-heading">
+            <span class="salad-label">მინიშნება</span>
+            <strong>ცხოველების შვილები</strong>
+          </div>
+          <label class="salad-scenario-label" for="salad-scenario">სცენარი
+            <select id="salad-scenario" aria-label="Word Salad სცენარი"></select>
+          </label>
+          <div id="salad-board" class="salad-board" role="grid" aria-label="4x4 ასოების დაფა"></div>
+          <div id="salad-words" class="salad-words" aria-live="polite"></div>
+          <p id="salad-message" class="message" aria-live="polite">გაასრიალე თითი ან მაუსი ასოებზე.</p>
+          <button id="salad-hint" class="salad-hint" type="button">მინიშნება <span>დააჭირე დიდხანს</span></button>
+          <button id="salad-reset" class="text-button reset-button" type="button">თავიდან დაწყება</button>
+        </section>
+      </section>
+
       <section id="wordle-view" class="view" aria-labelledby="wordle-title" hidden>
         <div class="intro">
           <div>
-            <p class="eyebrow">თამაში 002 <span aria-hidden="true">•</span> ქართული ვორდლი</p>
+            <p class="eyebrow">თამაში 003 <span aria-hidden="true">•</span> ქართული ვორდლი</p>
             <h1 id="wordle-title">გამოიცანი სიტყვა.</h1>
             <p class="subtitle">ხუთი ასო. ექვსი ცდა. ერთი სიტყვა.</p>
           </div>

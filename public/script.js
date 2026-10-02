@@ -102,6 +102,7 @@ function collectEgg(egg) {
 function setView(view) {
   document.querySelectorAll('.nav-button').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
   document.querySelector('#connections-view').hidden = view !== 'connections';
+  document.querySelector('#salad-view').hidden = view !== 'salad';
   document.querySelector('#wordle-view').hidden = view !== 'wordle';
   localStorage.setItem(viewStorageKey, view);
 }
@@ -181,6 +182,12 @@ function submitGuess() {
 }
 
 function shuffleWords() {
+  selected.clear();
+  solved.clear();
+  solvedGroups.innerHTML = '';
+  mistakesLeft = 4;
+  gameOver = false;
+  document.querySelectorAll('.mistake-dots i').forEach((dot) => dot.classList.remove('used'));
   currentWords = createScatteredWords(puzzleWords);
   renderGrid();
 }
@@ -200,6 +207,202 @@ document.addEventListener('keydown', (event) => {
 });
 currentWords = createScatteredWords(puzzleWords);
 renderGrid();
+
+const saladScenarios = [
+  { title: 'ცხოველების შვილები', answers: ['სპლიყვი', 'ბოკვერი', 'ლეკვი', 'თახვი'], letters: ['ს', 'პ', 'ლ', 'ი', 'ი', 'ვ', 'ყ', 'რ', 'ხ', 'კ', 'ე', 'ბ', 'თ', 'ა', 'ო', 'ლ'] },
+  { title: 'შინაური ცხოველები', answers: ['ლეკვი', 'კნუტი', 'ბაჭია', 'ჭუკი'] },
+  { title: 'ფრინველების შვილები', answers: ['ჭუკი', 'ბარტყი', 'ბელი', 'ნუკრი'] },
+  { title: 'ტყის ცხოველები', answers: ['ბოკვერი', 'ნუკრი', 'ბელი', 'გოჭი'] },
+  { title: 'ზღვის ბინადრები', answers: ['დელფინი', 'ვეშაპი', 'ზვიგენი', 'კიბორჩხალა'] },
+  { title: 'საბავშვო სათამაშოები', answers: ['თოჯინა', 'ბურთი', 'კუბიკი', 'ფაზლი'] },
+  { title: 'სამზარეულო', answers: ['კოვზი', 'ჭიქა', 'თეფში', 'დანა'] },
+  { title: 'ბაღის მცენარეები', answers: ['ვარდი', 'იასამანი', 'ტიტა', 'პიტნა'] },
+  { title: 'ამინდი', answers: ['წვიმა', 'თოვლი', 'ქარი', 'ელვა'] },
+  { title: 'ტრანსპორტი', answers: ['გემი', 'ტაქსი', 'ეტლი', 'ნავი'] },
+  { title: 'სკოლა', answers: ['წიგნი', 'კალამი', 'დაფა', 'ცარცი'] },
+  { title: 'ტყის მცენარეები', answers: ['მუხა', 'ფიჭვი', 'ნაძვი', 'არყი'] },
+  { title: 'ხილი', answers: ['ვაშლი', 'მსხალი', 'ატამი', 'ბალი'] },
+  { title: 'ბოსტნეული', answers: ['კიტრი', 'პომიდორი', 'სტაფილო', 'კარტოფილი'] },
+  { title: 'სახლი', answers: ['კარი', 'კედელი', 'აივანი', 'სახლი'] },
+  { title: 'ტანსაცმელი', answers: ['ქუდი', 'კაბა', 'ქამარი', 'შარფი'] },
+  { title: 'მუსიკა', answers: ['გიტარა', 'ფორტეპიანო', 'დოლი', 'ვიოლინო'] },
+  { title: 'სპორტი', answers: ['ბურთი', 'სირბილი', 'ცურვა', 'ჩოგანი'] },
+  { title: 'ზამთარი', answers: ['თხილამური', 'ციგა', 'თოვლი', 'ყინული'] },
+  { title: 'ზაფხული', answers: ['ზღვა', 'მზე', 'სათვალე', 'ქოლგა'] },
+  { title: 'ქალაქი', answers: ['ქუჩა', 'ხიდი', 'პარკი', 'შუქნიშანი'] }
+];
+let saladBoardLetters = saladScenarios[0].letters;
+let saladAnswers = saladScenarios[0].answers;
+const saladBoard = document.querySelector('#salad-board');
+const saladWords = document.querySelector('#salad-words');
+const saladMessage = document.querySelector('#salad-message');
+const saladHint = document.querySelector('#salad-hint');
+const saladScenario = document.querySelector('#salad-scenario');
+const saladFound = new Set();
+let saladPath = [];
+let saladPointerDown = false;
+let saladSolvedPaths = new Map();
+let saladHintTimer;
+let saladHintCount = 0;
+let saladClearTimer;
+let saladWordClearTimer;
+
+function buildScenarioLetters(answers) {
+  const maximumCounts = new Map();
+  answers.forEach((word) => {
+    const counts = new Map();
+    [...word].forEach((letter) => counts.set(letter, (counts.get(letter) || 0) + 1));
+    counts.forEach((count, letter) => maximumCounts.set(letter, Math.max(maximumCounts.get(letter) || 0, count)));
+  });
+  const letters = [];
+  maximumCounts.forEach((count, letter) => {
+    for (let index = 0; index < count; index += 1) letters.push(letter);
+  });
+  while (letters.length < 16) letters.push(letters[letters.length % Math.max(1, letters.length)] || 'ა');
+  return letters.slice(0, 16);
+}
+
+function populateSaladScenarios() {
+  saladScenario.innerHTML = saladScenarios.map((scenario, index) => `<option value="${index}">${String(index + 1).padStart(2, '0')} · ${scenario.title}</option>`).join('');
+}
+
+function loadSaladScenario(index) {
+  const scenario = saladScenarios[index];
+  saladBoardLetters = scenario.letters || buildScenarioLetters(scenario.answers);
+  saladAnswers = scenario.answers;
+  saladScenario.value = String(index);
+  document.querySelector('.salad-heading strong').textContent = scenario.title;
+  window.clearTimeout(saladClearTimer);
+  window.clearTimeout(saladWordClearTimer);
+  window.clearTimeout(saladHintTimer);
+  saladPath = [];
+  saladPointerDown = false;
+  saladWords.classList.remove('clearing');
+  saladFound.clear();
+  saladSolvedPaths.clear();
+  saladHintCount = 0;
+  renderSaladBoard();
+  renderSaladWords();
+  saladMessage.className = 'message';
+  saladMessage.textContent = 'გაასრიალე თითი ან მაუსი ასოებზე.';
+}
+
+function renderSaladWords() {
+  saladWords.innerHTML = saladAnswers.map((word) => {
+    const found = saladFound.has(word);
+    const revealed = [...word].map((letter, index) => index < saladHintCount ? letter : '•').join('');
+    return `<div class="salad-word ${found ? 'found' : ''}"><span>${found ? word : revealed}</span><small>${[...word].length} ასო</small></div>`;
+  }).join('');
+}
+
+function renderSaladBoard() {
+  saladBoard.innerHTML = saladBoardLetters.map((letter, index) => `<button class="salad-tile" type="button" role="gridcell" data-index="${index}" aria-label="ასო ${letter}">${letter}</button>`).join('');
+  saladBoard.querySelectorAll('.salad-tile').forEach((tile) => {
+    tile.addEventListener('pointerdown', (event) => startSaladPath(event, tile));
+    tile.addEventListener('pointerenter', () => extendSaladPath(tile));
+  });
+}
+
+function startSaladPath(event, tile) {
+  event.preventDefault();
+  saladPointerDown = true;
+  saladPath = [Number(tile.dataset.index)];
+  tile.classList.add('active');
+  saladMessage.textContent = tile.textContent;
+}
+
+saladBoard.addEventListener('pointermove', (event) => {
+  if (!saladPointerDown) return;
+  const tile = event.target.closest?.('.salad-tile') || document.elementFromPoint(event.clientX, event.clientY)?.closest('.salad-tile');
+  if (tile && saladBoard.contains(tile)) extendSaladPath(tile);
+});
+
+function extendSaladPath(tile) {
+  if (!saladPointerDown || saladPath.includes(Number(tile.dataset.index))) return;
+  saladPath.push(Number(tile.dataset.index));
+  tile.classList.add('active');
+  saladMessage.textContent = saladPath.map((index) => saladBoardLetters[index]).join('');
+}
+
+function findSaladMatch(path) {
+  for (const word of saladAnswers) {
+    if (path.length === [...word].length && path.map((index) => saladBoardLetters[index]).join('') === word) return { word, path: [...path] };
+  }
+  return null;
+}
+
+function finishSaladPath() {
+  if (!saladPointerDown) return;
+  saladPointerDown = false;
+  const answer = saladPath.map((index) => saladBoardLetters[index]).join('');
+  const match = findSaladMatch(saladPath);
+  if (match) {
+    saladFound.add(match.word);
+    saladSolvedPaths.set(match.word, [...match.path]);
+    match.path.forEach((index) => saladBoard.querySelector(`[data-index="${index}"]`)?.classList.add('solved'));
+    saladMessage.className = 'message';
+    saladMessage.textContent = saladFound.size === saladAnswers.length ? 'ყველა სიტყვა იპოვე. შესანიშნავია.' : 'იპოვე. კიდევ ერთი სცადე.';
+    if (saladFound.size === saladAnswers.length) {
+      saladClearTimer = window.setTimeout(() => {
+        saladWords.classList.add('clearing');
+        saladWordClearTimer = window.setTimeout(() => {
+          saladWords.innerHTML = '';
+          saladWords.classList.remove('clearing');
+        }, 380);
+      }, 700);
+    }
+    window.setTimeout(() => {
+      saladSolvedPaths.get(match.word)?.forEach((index) => {
+        const tile = saladBoard.querySelector(`[data-index="${index}"]`);
+        const stillNeeded = saladAnswers.filter((word) => !saladFound.has(word)).some((word) => word.includes(saladBoardLetters[index]));
+        if (!stillNeeded) tile?.classList.add('vanished');
+      });
+      saladSolvedPaths.delete(match.word);
+    }, 460);
+  } else if (answer) {
+    saladMessage.className = 'message error';
+    saladMessage.textContent = 'ეს სიტყვა სიაში არ არის.';
+    saladPath.forEach((index) => saladBoard.querySelector(`[data-index="${index}"]`)?.classList.add('invalid'));
+  }
+  const completedPath = match ? [...match.path] : [...saladPath];
+  window.setTimeout(() => {
+    completedPath.forEach((index) => saladBoard.querySelector(`[data-index="${index}"]`)?.classList.remove('active', 'invalid', 'solved'));
+  }, match ? 460 : 260);
+  saladPath = [];
+  renderSaladWords();
+}
+
+document.addEventListener('pointerup', finishSaladPath);
+document.addEventListener('pointercancel', finishSaladPath);
+saladScenario.addEventListener('change', () => loadSaladScenario(Number(saladScenario.value)));
+document.querySelector('#salad-reset').addEventListener('click', () => {
+  window.clearTimeout(saladClearTimer);
+  window.clearTimeout(saladWordClearTimer);
+  window.clearTimeout(saladHintTimer);
+  saladFound.clear();
+  saladSolvedPaths.clear();
+  saladBoard.querySelectorAll('.salad-tile').forEach((tile) => tile.classList.remove('vanished'));
+  saladHintCount = 0;
+  saladPath = [];
+  saladPointerDown = false;
+  saladWords.classList.remove('clearing');
+  saladMessage.className = 'message';
+  saladMessage.textContent = 'გაასრიალე თითი ან მაუსი ასოებზე.';
+  renderSaladWords();
+});
+saladHint.addEventListener('pointerdown', () => {
+  saladHintTimer = setTimeout(() => {
+    const longestAnswer = Math.max(...saladAnswers.map((word) => [...word].length));
+    saladHintCount = Math.min(saladHintCount + 1, longestAnswer);
+    renderSaladWords();
+    saladMessage.className = 'message';
+    saladMessage.textContent = `მინიშნება: ${saladHintCount} ასო გამოჩნდა.`;
+    saladHint.classList.add('hint-used');
+  }, 650);
+});
+['pointerup', 'pointerleave', 'pointercancel'].forEach((eventName) => saladHint.addEventListener(eventName, () => clearTimeout(saladHintTimer)));
+populateSaladScenarios();
+loadSaladScenario(0);
 
 const wordleTarget = 'პრავა';
 const wordleRows = 6;
