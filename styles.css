@@ -113,16 +113,18 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
 .egg-slot { display: grid; min-width: 0; aspect-ratio: 1; place-items: center; border: 1px solid var(--ink); border-radius: 2px; color: var(--ink); background: var(--yellow); font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
 .egg-slot.empty { color: var(--muted); background: transparent; }
 .egg-slot img { width: 100%; height: 100%; object-fit: cover; }
-.egg-hotspot { position: fixed; z-index: 3; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; opacity: .01; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-.egg-hotspot:hover, .egg-hotspot:active, .egg-hotspot:focus-visible { opacity: .18; outline: 1px solid var(--coral); }
+.egg-hotspot { position: fixed; z-index: 3; display: grid; width: 44px; height: 44px; padding: 0; place-items: center; border: 1px solid var(--ink); border-radius: 50%; opacity: .86; color: var(--ink); background: var(--yellow); cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.egg-hotspot::after { content: attr(data-egg-value); }
+.egg-hotspot:hover, .egg-hotspot:active, .egg-hotspot:focus-visible { opacity: 1; outline: 2px solid var(--coral); }
 .egg-one { top: 13%; left: 9%; }
 .egg-two { top: 27%; right: 8%; }
 .egg-three { top: 48%; left: 4%; }
 .egg-four { top: 62%; right: 12%; }
 .egg-five { top: 78%; left: 17%; }
 .egg-six { top: 90%; right: 28%; }
-.egg-picture { top: 36%; left: 74%; overflow: hidden; }
+.egg-picture { top: 36%; left: 74%; overflow: hidden; background: var(--card); }
 .egg-picture img { width: 100%; height: 100%; object-fit: cover; }
+.egg-picture::after { content: none; }
 .wordle-game { display: flex; flex-direction: column; align-items: center; padding: 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
 .wordle-board { display: grid; grid-template-columns: repeat(5, 58px); gap: 7px; }
 .wordle-tile { display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid var(--line); border-radius: 2px; color: var(--ink); background: var(--card); font-family: 'Noto Sans Georgian', sans-serif; font-size: 23px; font-weight: 700; }
