@@ -2,7 +2,7 @@
   "name": "natabata",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy --assets ./public"
   },
   "devDependencies": {
     "wrangler": "^4.59.3"
