@@ -22,6 +22,7 @@
           <button class="nav-button" type="button" data-view="wordle">Wordle</button>
         </nav>
         <div class="topbar-actions">
+          <button id="hint-button" class="hint-button" type="button" aria-expanded="false">Hint</button>
           <button class="icon-button" type="button" aria-label="როგორ ვითამაშოთ" title="როგორ ვითამაშოთ">?</button>
           <button class="icon-button" type="button" aria-label="სტატისტიკა" title="სტატისტიკა">▥</button>
         </div>
@@ -81,6 +82,18 @@
         <img id="reaction-image" src="" alt="რეაქცია" />
       </div>
     </div>
+    <aside id="hint-panel" class="hint-panel" hidden aria-live="polite">
+      <p class="hint-phrase">If you want to know you shall</p>
+      <p class="hint-instruction">Find the 7 items</p>
+      <div id="egg-progress" class="egg-progress" aria-label="Easter egg progress"></div>
+    </aside>
+    <button class="egg-hotspot egg-one" type="button" data-egg-id="number-1" data-egg-value="5" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-two" type="button" data-egg-id="number-2" data-egg-value="5" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-three" type="button" data-egg-id="number-3" data-egg-value="7" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-four" type="button" data-egg-id="number-4" data-egg-value="0" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-five" type="button" data-egg-id="number-5" data-egg-value="0" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-six" type="button" data-egg-id="number-6" data-egg-value="6" aria-label="Hidden item"></button>
+    <button class="egg-hotspot egg-picture" type="button" data-egg-id="picture" aria-label="Hidden picture"><img src="პრავა.png" alt="" /></button>
     <script src="script.js"></script>
   </body>
 </html>

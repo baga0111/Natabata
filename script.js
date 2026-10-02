@@ -25,6 +25,12 @@ const reactionModal = document.querySelector('#reaction-modal');
 const reactionImage = document.querySelector('#reaction-image');
 const selected = new Set();
 const solved = new Set();
+const eggStorageKey = 'connections-easter-eggs';
+const viewStorageKey = 'connections-active-view';
+const collectedEggs = new Set(JSON.parse(localStorage.getItem(eggStorageKey) || '[]'));
+const hintButton = document.querySelector('#hint-button');
+const hintPanel = document.querySelector('#hint-panel');
+const eggProgress = document.querySelector('#egg-progress');
 let currentWords;
 let mistakesLeft = 4;
 let gameOver = false;
@@ -56,6 +62,32 @@ function showReaction(imageName) {
 function closeReaction() {
   reactionModal.hidden = true;
   reactionImage.src = '';
+}
+
+function renderEggProgress() {
+  const eggIds = ['number-1', 'number-2', 'number-3', 'number-4', 'number-5', 'number-6', 'picture'];
+  eggProgress.innerHTML = eggIds.map((eggId) => {
+    if (!collectedEggs.has(eggId)) return '<span class="egg-slot empty">?</span>';
+    if (eggId === 'picture') return '<span class="egg-slot found-image"><img src="პრავა.png" alt="პრავა" /></span>';
+    const item = document.querySelector(`[data-egg-id="${eggId}"]`);
+    return `<span class="egg-slot">${item.dataset.eggValue}</span>`;
+  }).join('');
+}
+
+function collectEgg(egg) {
+  if (collectedEggs.has(egg.dataset.eggId)) return;
+  collectedEggs.add(egg.dataset.eggId);
+  localStorage.setItem(eggStorageKey, JSON.stringify([...collectedEggs]));
+  renderEggProgress();
+  hintPanel.hidden = false;
+  hintButton.setAttribute('aria-expanded', 'true');
+}
+
+function setView(view) {
+  document.querySelectorAll('.nav-button').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
+  document.querySelector('#connections-view').hidden = view !== 'connections';
+  document.querySelector('#wordle-view').hidden = view !== 'wordle';
+  localStorage.setItem(viewStorageKey, view);
 }
 
 function renderGrid() {
@@ -216,6 +248,11 @@ document.addEventListener('keydown', (event) => {
     handleWordleKey(undefined, event.key === 'Backspace' ? 'backspace' : 'enter');
   }
 });
+document.querySelectorAll('.egg-hotspot').forEach((egg) => egg.addEventListener('click', () => collectEgg(egg)));
+hintButton.addEventListener('click', () => {
+  hintPanel.hidden = !hintPanel.hidden;
+  hintButton.setAttribute('aria-expanded', String(!hintPanel.hidden));
+});
 document.querySelector('#wordle-reset').addEventListener('click', () => {
   wordleCurrent = '';
   wordleGuesses.length = 0;
@@ -223,9 +260,9 @@ document.querySelector('#wordle-reset').addEventListener('click', () => {
   renderWordle();
 });
 document.querySelectorAll('.nav-button').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('.nav-button').forEach((item) => item.classList.toggle('active', item === button));
-  document.querySelector('#connections-view').hidden = button.dataset.view !== 'connections';
-  document.querySelector('#wordle-view').hidden = button.dataset.view !== 'wordle';
+  setView(button.dataset.view);
 }));
+renderEggProgress();
+setView(localStorage.getItem(viewStorageKey) || 'connections');
 renderWordle();
 renderKeyboard();
