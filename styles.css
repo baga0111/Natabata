@@ -109,7 +109,7 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
 .reaction-copy p { margin: 8px 0 0; color: var(--ink); font-size: 14px; line-height: 1.4; }
 .reaction-close { position: absolute; top: 10px; right: 12px; z-index: 1; width: 40px; height: 40px; border: 1px solid rgba(24,35,33,.25); border-radius: 50%; color: var(--ink); background: rgba(255,253,248,.9); cursor: pointer; font-size: 27px; line-height: 1; }
 .reaction-close:hover { background: var(--coral); border-color: var(--coral); }
-.hint-panel { position: fixed; top: 78px; right: 24px; z-index: 8; width: min(330px, calc(100vw - 32px)); padding: 22px; border: 1px solid var(--ink); border-radius: 4px; background: var(--card); box-shadow: 8px 8px 0 rgba(24,35,33,.13); }
+.hint-panel { position: fixed; top: 78px; right: 24px; z-index: 8; width: min(330px, calc(100vw - 32px)); padding: 22px; border: 1px solid var(--ink); border-radius: 4px; background: var(--card); box-shadow: 8px 8px 0 rgba(24,35,33,.13); pointer-events: none; }
 .hint-panel[hidden] { display: none; }
 .hint-phrase { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px; line-height: 1.15; }
 .hint-instruction { margin: 8px 0 18px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
@@ -117,7 +117,7 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
 .egg-slot { display: grid; min-width: 0; aspect-ratio: 1; place-items: center; border: 1px solid var(--ink); border-radius: 2px; color: var(--ink); background: var(--yellow); font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
 .egg-slot.empty { color: var(--muted); background: transparent; }
 .egg-slot img { width: 100%; height: 100%; object-fit: cover; }
-.egg-hotspot { position: fixed; z-index: 3; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; opacity: .01; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.egg-hotspot { position: fixed; z-index: 9; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; opacity: .01; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .egg-hotspot:hover, .egg-hotspot:active, .egg-hotspot:focus-visible { opacity: .18; outline: 1px solid var(--coral); }
 .egg-one { top: 13%; left: 9%; }
 .egg-two { top: 27%; right: 8%; }
