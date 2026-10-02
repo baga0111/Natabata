@@ -104,6 +104,7 @@ function setView(view) {
   document.querySelector('#connections-view').hidden = view !== 'connections';
   document.querySelector('#salad-view').hidden = view !== 'salad';
   document.querySelector('#wordle-view').hidden = view !== 'wordle';
+  document.querySelector('#riddles-view').hidden = view !== 'riddles';
   localStorage.setItem(viewStorageKey, view);
 }
 
@@ -486,3 +487,56 @@ setView(localStorage.getItem(viewStorageKey) || 'connections');
 if (collectedEggs.size === 7) showEggCompletion();
 renderWordle();
 renderKeyboard();
+
+const riddles = [
+  { text: 'I am the tenth guest at the calendar table. I arrive after September, bring longer shadows, and wear a famous night of costumes. Who am I?', answers: ['october'], image: 'correct.png' },
+  { text: 'I return to the same date each year. I can mark a wedding, a birth, or the day a company began. What am I?', answers: ['anniversary'], image: 'elami.png' },
+  { text: 'I may be wrapped, hidden, or handed over with a smile. I am not bought for the person who receives me. What am I?', answers: ['gift', 'present'], image: 'one-away.png' }
+];
+const riddleText = document.querySelector('#riddle-text');
+const riddleNumber = document.querySelector('#riddle-number');
+const riddleForm = document.querySelector('#riddle-form');
+const riddleAnswer = document.querySelector('#riddle-answer');
+const riddleMessage = document.querySelector('#riddle-message');
+let riddleIndex = 0;
+
+function renderRiddle() {
+  if (riddleIndex >= riddles.length) {
+    riddleNumber.textContent = '✓';
+    riddleText.textContent = 'ყველა გამოცანა გამოიცანი.';
+    riddleForm.hidden = true;
+    riddleMessage.className = 'message';
+    riddleMessage.textContent = 'შესანიშნავია. სამივე პასუხი სწორია.';
+    return;
+  }
+  riddleNumber.textContent = String(riddleIndex + 1).padStart(2, '0');
+  riddleText.textContent = riddles[riddleIndex].text;
+  riddleForm.hidden = false;
+  riddleAnswer.value = '';
+  riddleAnswer.focus();
+}
+
+riddleForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const guess = riddleAnswer.value.trim().toLocaleLowerCase();
+  if (!riddles[riddleIndex].answers.includes(guess)) {
+    riddleMessage.className = 'message error';
+    riddleMessage.textContent = 'ჯერ არა. კიდევ სცადე.';
+    riddleAnswer.select();
+    return;
+  }
+  const solvedRiddle = riddles[riddleIndex];
+  riddleMessage.className = 'message';
+  riddleMessage.textContent = 'სწორია. სურათი გაიხსნა.';
+  riddleIndex += 1;
+  showReaction(solvedRiddle.image);
+  renderRiddle();
+});
+
+document.querySelector('#riddle-reset').addEventListener('click', () => {
+  riddleIndex = 0;
+  renderRiddle();
+  riddleMessage.className = 'message';
+  riddleMessage.textContent = 'ჩაწერე შენი პასუხი.';
+});
+renderRiddle();

@@ -129,6 +129,16 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
 .egg-picture img { width: 100%; height: 100%; object-fit: cover; }
 .egg-picture::after { content: none; }
 .wordle-game { display: flex; flex-direction: column; align-items: center; padding: 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
+.riddle-game { display: flex; flex-direction: column; align-items: center; padding: 32px 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
+.riddle-progress { display: flex; gap: 6px; margin-bottom: 24px; color: var(--muted); font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; }
+.riddle-progress span:first-child { color: var(--coral); }
+.riddle-text { width: min(100%, 650px); min-height: 72px; margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 4vw, 34px); line-height: 1.15; text-align: center; }
+.riddle-form { width: min(100%, 460px); margin-top: 28px; }
+.riddle-form label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.riddle-input-row { display: flex; gap: 8px; }
+.riddle-input-row input { min-width: 0; flex: 1; padding: 0 14px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); background: var(--card); font: inherit; }
+.riddle-input-row input:focus { outline: 3px solid rgba(239, 114, 92, .35); border-color: var(--coral); }
+.riddle-game .message { margin-top: 18px; }
 .salad-game { display: flex; flex-direction: column; align-items: center; padding: 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
 .salad-heading { display: flex; align-items: baseline; justify-content: space-between; width: min(100%, 560px); margin-bottom: 18px; }
 .salad-label { color: var(--coral); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
@@ -183,6 +193,9 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
   .footer-note { font-size: 10px; }
   .hint-panel { top: 70px; right: 12px; }
   .wordle-game { padding: 16px 8px; }
+  .riddle-game { padding: 22px 12px; }
+  .riddle-input-row { flex-direction: column; }
+  .riddle-input-row input { min-height: 42px; }
   .salad-game { padding: 16px 8px; }
   .salad-board { gap: 6px; }
   .salad-words { gap: 4px; }
