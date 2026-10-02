@@ -72,6 +72,10 @@ function closeReaction() {
   reactionCopy.hidden = true;
 }
 
+function showEggCompletion() {
+  showReaction('elami.png', 'Bravo TOOO', 'Somethin I started when I came here and finished a couple of weeks ago');
+}
+
 function renderEggProgress() {
   const eggIds = ['number-1', 'number-2', 'number-3', 'number-4', 'number-5', 'number-6', 'picture'];
   eggProgress.innerHTML = eggIds.map((eggId) => {
@@ -91,7 +95,7 @@ function collectEgg(egg) {
   hintButton.setAttribute('aria-expanded', 'true');
   if (collectedEggs.size === 7 && !localStorage.getItem(eggCompletionStorageKey)) {
     localStorage.setItem(eggCompletionStorageKey, 'true');
-    showReaction('elami.png', 'Bravo TOOO', 'Somethin I started when I came here and finished a couple of weeks ago');
+    showEggCompletion();
   }
 }
 
@@ -276,5 +280,6 @@ document.querySelectorAll('.nav-button').forEach((button) => button.addEventList
 }));
 renderEggProgress();
 setView(localStorage.getItem(viewStorageKey) || 'connections');
+if (collectedEggs.size === 7) showEggCompletion();
 renderWordle();
 renderKeyboard();
