@@ -153,7 +153,7 @@ document.addEventListener('keydown', (event) => {
 currentWords = createScatteredWords(puzzleWords);
 renderGrid();
 
-const wordleTarget = 'სახლი';
+const wordleTarget = 'პრავა';
 const wordleRows = 6;
 const wordleColumns = 5;
 const wordleGuesses = [];
