@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f2eb" />
+    <title>სიტყვები | ქართული სიტყვების თამაშები</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="მთავარი გვერდი">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <span>სიტყვები</span>
+        </a>
+        <nav class="game-nav" aria-label="თამაშები">
+          <button class="nav-button active" type="button" data-view="connections">Connections</button>
+          <button class="nav-button" type="button" data-view="wordle">Wordle</button>
+        </nav>
+        <div class="topbar-actions">
+          <button class="icon-button" type="button" aria-label="როგორ ვითამაშოთ" title="როგორ ვითამაშოთ">?</button>
+          <button class="icon-button" type="button" aria-label="სტატისტიკა" title="სტატისტიკა">▥</button>
+        </div>
+      </header>
+
+      <section id="connections-view" class="view active-view" aria-labelledby="page-title">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">თამაში 001 <span aria-hidden="true">•</span> 2 ოქტომბერი, პარასკევი</p>
+          <h1 id="page-title">იპოვე კავშირები.</h1>
+          <p class="subtitle">დააჯგუფე სიტყვები, რომლებსაც რაღაც საერთო აქვთ.</p>
+        </div>
+        <div class="mistakes" aria-label="დარჩენილი შეცდომები">
+          <span class="mistakes-label">შეცდომები</span>
+          <span class="mistake-dots"><i></i><i></i><i></i><i></i></span>
+        </div>
+      </div>
+
+      <section class="game" aria-label="კავშირების თამაში">
+        <div id="solved-groups" class="solved-groups" aria-live="polite"></div>
+        <div id="word-grid" class="word-grid" role="group" aria-label="16 სიტყვა"></div>
+        <p id="message" class="message" aria-live="polite">შექმენი ოთხი ჯგუფი, თითოეულში ოთხი სიტყვით.</p>
+        <div class="controls">
+          <button id="shuffle-button" class="text-button" type="button"><span aria-hidden="true">⤨</span> არევა</button>
+          <button id="deselect-button" class="text-button" type="button">გასუფთავება</button>
+          <button id="submit-button" class="submit-button" type="button" disabled>შემოწმება</button>
+        </div>
+      </section>
+      </section>
+
+      <section id="wordle-view" class="view" aria-labelledby="wordle-title" hidden>
+        <div class="intro">
+          <div>
+            <p class="eyebrow">თამაში 002 <span aria-hidden="true">•</span> ქართული ვორდლი</p>
+            <h1 id="wordle-title">გამოიცანი სიტყვა.</h1>
+            <p class="subtitle">ხუთი ასო. ექვსი ცდა. ერთი სიტყვა.</p>
+          </div>
+        </div>
+        <section class="wordle-game" aria-label="ვორდლის თამაში">
+          <div id="wordle-board" class="wordle-board" aria-label="ექვსი ცდა"></div>
+          <p id="wordle-message" class="message" aria-live="polite">შეიყვანე პირველი სიტყვა.</p>
+          <div id="georgian-keyboard" class="keyboard" aria-label="ქართული კლავიატურა"></div>
+          <button id="wordle-reset" class="text-button reset-button" type="button">თავიდან დაწყება</button>
+        </section>
+      </section>
+
+      <footer class="footer-note">
+        <span class="footer-rule"></span>
+        <span>ერთი სიტყვა. ბევრი კავშირი.</span>
+        <span class="footer-rule"></span>
+      </footer>
+    </main>
+    <div id="reaction-modal" class="reaction-modal" hidden role="dialog" aria-modal="true" aria-label="რეაქცია">
+      <div class="reaction-backdrop" data-close-reaction></div>
+      <div class="reaction-card">
+        <button id="close-reaction" class="reaction-close" type="button" aria-label="დახურვა">×</button>
+        <img id="reaction-image" src="" alt="რეაქცია" />
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
