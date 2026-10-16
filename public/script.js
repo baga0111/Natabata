@@ -1,3 +1,4 @@
+const buildVersion = '2026-10-16-connections-secrets';
 const puzzleDays = [
   {
     label: 'თამაში 001',
