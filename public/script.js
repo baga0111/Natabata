@@ -97,15 +97,14 @@ const eggProgress = document.querySelector('#egg-progress');
 const connectionsDay = document.querySelector('#connections-day');
 const connectionsDayLabel = document.querySelector('#connections-day-label');
 const pageTitle = document.querySelector('#page-title');
+const titleMessagePanel = document.querySelector('#title-message-panel');
 let currentWords = puzzleDays[0].words;
 let currentDayIndex = 0;
 let mistakesLeft = 4;
 let gameOver = false;
 
 function revealPageTitle() {
-  pageTitle.innerHTML = '<span class="title-emphasis">No</span> <span class="title-emphasis">one</span> knows me like you, thank god we got <span class="title-emphasis">noticed</span>.';
-  pageTitle.setAttribute('aria-label', 'No one knows me like you, thank god we got noticed.');
-  pageTitle.classList.add('revealed-title');
+  titleMessagePanel.hidden = false;
 }
 
 pageTitle.addEventListener('click', revealPageTitle);
@@ -115,6 +114,12 @@ pageTitle.addEventListener('keydown', (event) => {
     revealPageTitle();
   }
 });
+function closeTitleMessage() {
+  titleMessagePanel.hidden = true;
+}
+
+document.querySelector('#close-title-message').addEventListener('click', closeTitleMessage);
+document.querySelector('[data-close-title-message]').addEventListener('click', closeTitleMessage);
 
 function createScatteredWords(words) {
   const groups = [...new Set(words.map((item) => item.group))].map((group) => ({
