@@ -1,20 +1,48 @@
-const puzzleWords = [
-  { word: 'დაიმონდები', group: 'Travel town', color: 'yellow' },
-  { word: 'ენერგიები', group: 'Travel town', color: 'yellow' },
-  { word: 'შეჯვარება', group: 'Travel town', color: 'yellow' },
-  { word: '73', group: 'Travel town', color: 'yellow' },
-  { word: 'Days', group: 'The games we played', fullName: 'Days since', color: 'teal' },
-  { word: 'Elmwood', group: 'The games we played', fullName: 'Elmwood tree', color: 'teal' },
-  { word: 'The past', group: 'The games we played', fullName: 'The past within', color: 'teal' },
-  { word: 'Escape', group: 'The games we played', fullName: 'Escape lab', color: 'teal' },
-  { word: 'Ida', group: 'The names of our children', color: 'coral' },
-  { word: 'Maxime', group: 'The names of our children', color: 'coral' },
-  { word: 'ნათლია', group: 'The names of our children', color: 'coral' },
-  { word: 'ნატო junior', group: 'The names of our children', color: 'coral' },
-  { word: 'Monet pro hole', group: 'Where it all happened', color: 'lilac' },
-  { word: 'phobia', group: 'Where it all happened', color: 'lilac' },
-  { word: 'Beg like An', group: 'Where it all happened', color: 'lilac' },
-  { word: 'star oh, step in, follow', group: 'Where it all happened', color: 'lilac' }
+const puzzleDays = [
+  {
+    label: 'თამაში 001',
+    date: '2 ოქტომბერი, პარასკევი',
+    words: [
+      { word: 'დაიმონდები', group: 'Travel town', color: 'yellow' },
+      { word: 'ენერგიები', group: 'Travel town', color: 'yellow' },
+      { word: 'შეჯვარება', group: 'Travel town', color: 'yellow' },
+      { word: '73', group: 'Travel town', color: 'yellow' },
+      { word: 'Days', group: 'The games we played', fullName: 'Days since', color: 'teal' },
+      { word: 'Elmwood', group: 'The games we played', fullName: 'Elmwood tree', color: 'teal' },
+      { word: 'The past', group: 'The games we played', fullName: 'The past within', color: 'teal' },
+      { word: 'Escape', group: 'The games we played', fullName: 'Escape lab', color: 'teal' },
+      { word: 'Ida', group: 'The names of our children', color: 'coral' },
+      { word: 'Maxime', group: 'The names of our children', color: 'coral' },
+      { word: 'ნათლია', group: 'The names of our children', color: 'coral' },
+      { word: 'ნატო junior', group: 'The names of our children', color: 'coral' },
+      { word: 'Monet pro hole', group: 'Where it all happened', color: 'lilac' },
+      { word: 'phobia', group: 'Where it all happened', color: 'lilac' },
+      { word: 'Beg like An', group: 'Where it all happened', color: 'lilac' },
+      { word: 'star oh, step in, follow', group: 'Where it all happened', color: 'lilac' }
+    ]
+  },
+  {
+    label: 'თამაში 002',
+    date: 'ახალი დღე',
+    words: [
+      { word: 'Thumb', group: 'Keyiahanke Favourtie sayings', color: 'yellow' },
+      { word: 'თმაში შეუცურა', group: 'Keyiahanke Favourtie sayings', color: 'yellow' },
+      { word: 'ნეკნები', group: 'Keyiahanke Favourtie sayings', color: 'yellow' },
+      { word: 'იბლარება', group: 'Keyiahanke Favourtie sayings', color: 'yellow' },
+      { word: 'ბობი', group: 'Ankoras პერსონაჟები', color: 'teal' },
+      { word: 'ტომასი', group: 'Ankoras პერსონაჟები', color: 'teal' },
+      { word: 'ალისა', group: 'Ankoras პერსონაჟები', color: 'teal' },
+      { word: 'სანი', group: 'Ankoras პერსონაჟები', color: 'teal' },
+      { word: 'Pizza van', group: 'Beglika', color: 'coral' },
+      { word: 'sam and dan', group: 'Beglika', color: 'coral' },
+      { word: 'electricity', group: 'Beglika', color: 'coral' },
+      { word: 'lentils', group: 'Beglika', color: 'coral' },
+      { word: 'Nevsky', group: 'Associated with sofia', color: 'lilac' },
+      { word: 'Avocado taost', group: 'Associated with sofia', color: 'lilac' },
+      { word: 'McDonalds', group: 'Associated with sofia', color: 'lilac' },
+      { word: 'Utito', group: 'Associated with sofia', color: 'lilac' }
+    ]
+  }
 ];
 
 const grid = document.querySelector('#word-grid');
@@ -34,10 +62,58 @@ const viewStorageKey = 'connections-active-view';
 const collectedEggs = new Set(JSON.parse(localStorage.getItem(eggStorageKey) || '[]'));
 const hintButton = document.querySelector('#hint-button');
 const hintPanel = document.querySelector('#hint-panel');
+const secondHintButton = document.querySelector('#second-hint-button');
+const secondHintPanel = document.querySelector('#second-hint-panel');
+const secondHintForm = document.querySelector('#second-hint-form');
+const secondHintKeyword = document.querySelector('#second-hint-keyword');
+const secondHintMessage = document.querySelector('#second-hint-message');
+const secondHintContent = document.querySelector('#second-hint-content');
+const secondHintAnswer = `Yolk above, then meadow, then blood below, that’s the order of my banner.
+Old words live on in my mouth, distant cousins of Sanskrit.
+Under my name, if you dig deep enough, you’ll find only rain.
+Nowhere in Europe did the old gods hold out longer than with me.
+Europe’s very middle, some surveyors swear, hides in my woods.
+Very first was I to slip out of the red empire’s chain.
+Eaten at my table: airships made of potato, stuffed with meat.
+Resin of ancient pines washes onto my shore as gold.
+Knight on a white horse gallops forever across my shield.
+Nests of white storks crown my rooftops every spring.
+Once my borders stretched from one sea all the way to the Black one.
+When an orange ball flies, my whole country holds its breath.
+Wooden crosses, thousands upon thousands, grow on my hill like a forest.
+I am the southern one of three sisters by the sea.
+Two million hands once joined in a chain across me and my sisters.
+Hills of sand wander along my narrow finger into the sea.
+My old capital is a red castle standing on an island in a lake.
+End of the riddle: say my name, and you’ll know where I’ll be.`;
+const hiddenDateButton = document.querySelector('#hidden-date-button');
+const dateHintPanel = document.querySelector('#date-hint-panel');
+const dateHintForm = document.querySelector('#date-hint-form');
+const dateHintKeyword = document.querySelector('#date-hint-keyword');
+const dateHintMessage = document.querySelector('#date-hint-message');
+const dateHintContent = document.querySelector('#date-hint-content');
 const eggProgress = document.querySelector('#egg-progress');
-let currentWords;
+const connectionsDay = document.querySelector('#connections-day');
+const connectionsDayLabel = document.querySelector('#connections-day-label');
+const pageTitle = document.querySelector('#page-title');
+let currentWords = puzzleDays[0].words;
+let currentDayIndex = 0;
 let mistakesLeft = 4;
 let gameOver = false;
+
+function revealPageTitle() {
+  pageTitle.innerHTML = '<span class="title-emphasis">No</span> <span class="title-emphasis">one</span> knows me like you, thank god we got <span class="title-emphasis">noticed</span>.';
+  pageTitle.setAttribute('aria-label', 'No one knows me like you, thank god we got noticed.');
+  pageTitle.classList.add('revealed-title');
+}
+
+pageTitle.addEventListener('click', revealPageTitle);
+pageTitle.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    revealPageTitle();
+  }
+});
 
 function createScatteredWords(words) {
   const groups = [...new Set(words.map((item) => item.group))].map((group) => ({
@@ -143,6 +219,18 @@ function toggleSelection(word, card) {
   message.textContent = selected.size === 4 ? 'მზადაა შემოწმებისთვის.' : 'შექმენი ოთხი ჯგუფი, თითოეულში ოთხი სიტყვით.';
 }
 
+function renderSolvedGroups() {
+  solvedGroups.innerHTML = '';
+  const groupOrder = [...new Set(puzzleDays[currentDayIndex].words.map((item) => item.group))];
+  groupOrder.filter((group) => solved.has(group)).forEach((group) => {
+    const groupWords = currentWords.filter((item) => item.group === group);
+    solvedGroups.insertAdjacentHTML(
+      'beforeend',
+      `<div class="solved-group" data-color="${groupWords[0].color}"><strong>${group}</strong><span>${groupWords.map((item) => item.fullName || item.word).join(' · ')}</span></div>`
+    );
+  });
+}
+
 function submitGuess() {
   if (gameOver) return;
   const guessedWords = currentWords.filter((item) => selected.has(item.word));
@@ -174,7 +262,7 @@ function submitGuess() {
   }
 
   solved.add(group);
-  solvedGroups.insertAdjacentHTML('beforeend', `<div class="solved-group" data-color="${guessedWords[0].color}"><strong>${group}</strong><span>${guessedWords.map((item) => item.fullName || item.word).join(' · ')}</span></div>`);
+  renderSolvedGroups();
   showReaction('correct.png');
   selected.clear();
   message.className = 'message';
@@ -189,11 +277,27 @@ function shuffleWords() {
   mistakesLeft = 4;
   gameOver = false;
   document.querySelectorAll('.mistake-dots i').forEach((dot) => dot.classList.remove('used'));
-  currentWords = createScatteredWords(puzzleWords);
+  currentWords = createScatteredWords(puzzleDays[currentDayIndex].words);
   renderGrid();
 }
 
+function renderConnectionsDayOptions() {
+  connectionsDay.innerHTML = puzzleDays.map((day, index) => (
+    `<option value="${index}">${day.label}</option>`
+  )).join('');
+  connectionsDay.value = String(currentDayIndex);
+}
+
+function selectConnectionsDay(index) {
+  currentDayIndex = index;
+  const day = puzzleDays[currentDayIndex];
+  connectionsDayLabel.innerHTML = `${day.label} <span aria-hidden="true">•</span> ${day.date}`;
+  currentWords = createScatteredWords(day.words);
+  shuffleWords();
+}
+
 document.querySelector('#shuffle-button').addEventListener('click', shuffleWords);
+connectionsDay.addEventListener('change', () => selectConnectionsDay(Number(connectionsDay.value)));
 document.querySelector('#deselect-button').addEventListener('click', () => {
   selected.clear();
   message.className = 'message';
@@ -206,7 +310,7 @@ document.querySelector('[data-close-reaction]').addEventListener('click', closeR
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') closeReaction();
 });
-currentWords = createScatteredWords(puzzleWords);
+currentWords = createScatteredWords(puzzleDays[currentDayIndex].words);
 renderGrid();
 
 const saladScenarios = [
@@ -410,9 +514,40 @@ const wordleRows = 6;
 const wordleColumns = 5;
 const wordleGuesses = [];
 let wordleCurrent = '';
+const wordleLetterStates = {};
 const georgianLetters = ['ქწერტყუიოპ', 'ასდფგჰჯკლ', 'ზხცვბნმ'];
 const wordleBoard = document.querySelector('#wordle-board');
 const wordleMessage = document.querySelector('#wordle-message');
+
+function getWordleStatuses(guess) {
+  const guessLetters = [...guess];
+  const targetLetters = [...wordleTarget];
+  const statuses = Array(wordleColumns).fill('absent');
+  const remaining = [...targetLetters];
+  guessLetters.forEach((letter, index) => {
+    if (letter === targetLetters[index]) {
+      statuses[index] = 'correct';
+      remaining[index] = null;
+    }
+  });
+  guessLetters.forEach((letter, index) => {
+    if (statuses[index] === 'correct') return;
+    const targetIndex = remaining.indexOf(letter);
+    if (targetIndex >= 0) {
+      statuses[index] = 'present';
+      remaining[targetIndex] = null;
+    }
+  });
+  return statuses;
+}
+
+function updateWordleLetterStates(guess, statuses) {
+  const priority = { absent: 1, present: 2, correct: 3 };
+  [...guess].forEach((letter, index) => {
+    const status = statuses[index];
+    if (!wordleLetterStates[letter] || priority[status] > priority[wordleLetterStates[letter]]) wordleLetterStates[letter] = status;
+  });
+}
 
 function renderWordle() {
   wordleBoard.innerHTML = '';
@@ -423,8 +558,7 @@ function renderWordle() {
       const guess = wordleGuesses[row] || '';
       tile.textContent = [...guess][column] || '';
       if (wordleGuesses[row]) {
-        const letter = [...guess][column];
-        tile.classList.add(letter === [...wordleTarget][column] ? 'correct' : [...wordleTarget].includes(letter) ? 'present' : 'absent');
+        tile.classList.add(getWordleStatuses(guess)[column]);
       } else if (row === wordleGuesses.length && column < wordleCurrent.length) {
         tile.textContent = [...wordleCurrent][column];
         tile.classList.add('filled');
@@ -436,7 +570,7 @@ function renderWordle() {
 
 function renderKeyboard() {
   const keyboard = document.querySelector('#georgian-keyboard');
-  keyboard.innerHTML = georgianLetters.map((line) => `<div class="keyboard-row">${[...line].map((letter) => `<button class="key" type="button" data-letter="${letter}">${letter}</button>`).join('')}</div>`).join('') + '<div class="keyboard-row"><button class="key key-wide" type="button" data-action="backspace">⌫</button><button class="key key-wide" type="button" data-action="enter">შეყვანა</button></div>';
+  keyboard.innerHTML = georgianLetters.map((line) => `<div class="keyboard-row">${[...line].map((letter) => `<button class="key ${wordleLetterStates[letter] || ''}" type="button" data-letter="${letter}">${letter}</button>`).join('')}</div>`).join('') + '<div class="keyboard-row"><button class="key key-wide" type="button" data-action="backspace">⌫</button><button class="key key-wide" type="button" data-action="enter">შეყვანა</button></div>';
   keyboard.querySelectorAll('.key').forEach((key) => key.addEventListener('click', () => handleWordleKey(key.dataset.letter, key.dataset.action)));
 }
 
@@ -449,12 +583,14 @@ function handleWordleKey(letter, action) {
       return;
     }
     wordleGuesses.push(wordleCurrent);
+    updateWordleLetterStates(wordleCurrent, getWordleStatuses(wordleCurrent));
     wordleCurrent = '';
     if (wordleGuesses.at(-1) === wordleTarget) wordleMessage.textContent = 'გამოიცანი. გილოცავ!';
     else if (wordleGuesses.length === wordleRows) wordleMessage.textContent = `სიტყვა იყო: ${wordleTarget}`;
     else wordleMessage.textContent = 'კიდევ ერთი ცდა.';
   } else if ([...wordleCurrent].length < wordleColumns) wordleCurrent += letter;
   renderWordle();
+  renderKeyboard();
 }
 
 document.querySelector('#georgian-keyboard').addEventListener('click', () => renderWordle());
@@ -473,16 +609,67 @@ hintButton.addEventListener('click', () => {
   hintPanel.hidden = !hintPanel.hidden;
   hintButton.setAttribute('aria-expanded', String(!hintPanel.hidden));
 });
+secondHintButton.addEventListener('click', () => {
+  secondHintPanel.hidden = !secondHintPanel.hidden;
+  secondHintButton.setAttribute('aria-expanded', String(!secondHintPanel.hidden));
+  if (!secondHintPanel.hidden) secondHintKeyword.focus();
+});
+document.querySelector('#close-second-hint').addEventListener('click', () => {
+  secondHintPanel.hidden = true;
+  secondHintButton.setAttribute('aria-expanded', 'false');
+});
+document.querySelector('[data-close-second-hint]').addEventListener('click', () => {
+  secondHintPanel.hidden = true;
+  secondHintButton.setAttribute('aria-expanded', 'false');
+});
+secondHintForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (secondHintKeyword.value.trim().toLocaleLowerCase() !== 'namu') {
+    secondHintMessage.className = 'message error';
+    secondHintMessage.textContent = 'That keyword is not correct.';
+    secondHintContent.hidden = true;
+    return;
+  }
+  secondHintMessage.className = 'message';
+  secondHintMessage.textContent = 'Keyword accepted.';
+  secondHintContent.textContent = secondHintAnswer;
+  secondHintContent.hidden = false;
+});
+function closeDateHint() {
+  dateHintPanel.hidden = true;
+}
+
+hiddenDateButton.addEventListener('click', () => {
+  dateHintPanel.hidden = false;
+  dateHintKeyword.focus();
+});
+document.querySelector('#close-date-hint').addEventListener('click', closeDateHint);
+document.querySelector('[data-close-date-hint]').addEventListener('click', closeDateHint);
+dateHintForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (dateHintKeyword.value.trim().toLocaleLowerCase() !== 'sakan') {
+    dateHintMessage.className = 'message error';
+    dateHintMessage.textContent = 'That keyword is not correct.';
+    dateHintContent.hidden = true;
+    return;
+  }
+  dateHintMessage.className = 'message';
+  dateHintMessage.textContent = 'Keyword accepted.';
+  dateHintContent.hidden = false;
+});
 document.querySelector('#wordle-reset').addEventListener('click', () => {
   wordleCurrent = '';
   wordleGuesses.length = 0;
+  Object.keys(wordleLetterStates).forEach((letter) => delete wordleLetterStates[letter]);
   wordleMessage.textContent = 'შეიყვანე პირველი სიტყვა.';
   renderWordle();
+  renderKeyboard();
 });
 document.querySelectorAll('.nav-button').forEach((button) => button.addEventListener('click', () => {
   setView(button.dataset.view);
 }));
 renderEggProgress();
+renderConnectionsDayOptions();
 setView(localStorage.getItem(viewStorageKey) || 'connections');
 if (collectedEggs.size === 7) showEggCompletion();
 renderWordle();

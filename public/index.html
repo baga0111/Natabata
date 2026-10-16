@@ -25,6 +25,7 @@
         </nav>
         <div class="topbar-actions">
           <button id="hint-button" class="hint-button" type="button" aria-expanded="false">Hint</button>
+          <button id="second-hint-button" class="hint-button" type="button" aria-expanded="false">Second hint</button>
           <button class="icon-button" type="button" aria-label="როგორ ვითამაშოთ" title="როგორ ვითამაშოთ">?</button>
           <button class="icon-button" type="button" aria-label="სტატისტიკა" title="სტატისტიკა">▥</button>
         </div>
@@ -33,9 +34,16 @@
       <section id="connections-view" class="view active-view" aria-labelledby="page-title">
       <div class="intro">
         <div>
-          <p class="eyebrow">თამაში 001 <span aria-hidden="true">•</span> 2 ოქტომბერი, პარასკევი</p>
-          <h1 id="page-title">იპოვე კავშირები.</h1>
-          <p class="subtitle">დააჯგუფე სიტყვები, რომლებსაც რაღაც საერთო აქვთ.</p>
+          <div class="connections-heading">
+            <div>
+              <p class="eyebrow" id="connections-day-label">თამაში 001 <span aria-hidden="true">•</span> 2 ოქტომბერი, პარასკევი</p>
+              <h1 id="page-title" role="button" tabindex="0" aria-label="იპოვე კავშირები">იპოვე კავშირები.</h1>
+              <p class="subtitle">დააჯგუფე სიტყვები, რომლებსაც რაღაც საერთო აქვთ.</p>
+            </div>
+            <label class="day-picker" for="connections-day">დღე
+              <select id="connections-day" aria-label="აირჩიე Connections-ის დღე"></select>
+            </label>
+          </div>
         </div>
         <div class="mistakes" aria-label="დარჩენილი შეცდომები">
           <span class="mistakes-label">შეცდომები</span>
@@ -140,6 +148,26 @@
       <p class="hint-instruction">Find the 7 items</p>
       <div id="egg-progress" class="egg-progress" aria-label="Easter egg progress"></div>
     </aside>
+    <aside id="second-hint-panel" class="second-hint-panel" hidden aria-labelledby="second-hint-title">
+      <div class="second-hint-backdrop" data-close-second-hint></div>
+      <div class="second-hint-card">
+      <button id="close-second-hint" class="second-hint-close" type="button" aria-label="დახურვა">×</button>
+      <h2 id="second-hint-title">Second hint</h2>
+      <p class="second-hint-riddle">Four beginnings, one secret. Look to the final group, where every word gives away a piece of the answer.</p>
+      <div class="second-hint-content-area">
+        <p>Enter the keyword to unlock the content.</p>
+        <form id="second-hint-form">
+          <label for="second-hint-keyword">Keyword</label>
+          <div class="second-hint-input-row">
+            <input id="second-hint-keyword" type="text" autocomplete="off" spellcheck="false" required />
+            <button class="submit-button" type="submit">Unlock</button>
+          </div>
+        </form>
+        <p id="second-hint-message" class="message" aria-live="polite"></p>
+        <p id="second-hint-content" class="second-hint-content" hidden></p>
+      </div>
+      </div>
+    </aside>
     <button class="egg-hotspot egg-one" type="button" data-egg-id="number-1" data-egg-value="5" aria-label="Hidden item"></button>
     <button class="egg-hotspot egg-two" type="button" data-egg-id="number-2" data-egg-value="5" aria-label="Hidden item"></button>
     <button class="egg-hotspot egg-three" type="button" data-egg-id="number-3" data-egg-value="7" aria-label="Hidden item"></button>
@@ -147,6 +175,24 @@
     <button class="egg-hotspot egg-five" type="button" data-egg-id="number-5" data-egg-value="0" aria-label="Hidden item"></button>
     <button class="egg-hotspot egg-six" type="button" data-egg-id="number-6" data-egg-value="6" aria-label="Hidden item"></button>
     <button class="egg-hotspot egg-picture" type="button" data-egg-id="picture" aria-label="Hidden picture"><img src="პრავა.png" alt="" /></button>
+    <button id="hidden-date-button" class="hidden-date-button" type="button">date</button>
+    <aside id="date-hint-panel" class="date-hint-panel" hidden aria-labelledby="date-hint-title">
+      <div class="date-hint-backdrop" data-close-date-hint></div>
+      <div class="date-hint-card">
+        <button id="close-date-hint" class="date-hint-close" type="button" aria-label="დახურვა">×</button>
+        <h2 id="date-hint-title">Date</h2>
+        <p>Enter the keyword to unlock the date.</p>
+        <form id="date-hint-form">
+          <label for="date-hint-keyword">Keyword</label>
+          <div class="date-hint-input-row">
+            <input id="date-hint-keyword" type="text" autocomplete="off" spellcheck="false" required />
+            <button class="submit-button" type="submit">Unlock</button>
+          </div>
+        </form>
+        <p id="date-hint-message" class="message" aria-live="polite"></p>
+        <p id="date-hint-content" class="date-hint-content" hidden>October 26, 2026</p>
+      </div>
+    </aside>
     <script src="script.js"></script>
   </body>
 </html>
