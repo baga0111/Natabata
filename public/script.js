@@ -320,27 +320,7 @@ currentWords = createScatteredWords(puzzleDays[currentDayIndex].words);
 renderGrid();
 
 const saladScenarios = [
-  { title: 'ცხოველების შვილები', answers: ['სპლიყვი', 'ბოკვერი', 'ლეკვი', 'თახვი'], letters: ['ს', 'პ', 'ლ', 'ი', 'ი', 'ვ', 'ყ', 'რ', 'ხ', 'კ', 'ე', 'ბ', 'თ', 'ა', 'ო', 'ლ'] },
-  { title: 'შინაური ცხოველები', answers: ['ლეკვი', 'კნუტი', 'ბაჭია', 'ჭუკი'] },
-  { title: 'ფრინველების შვილები', answers: ['ჭუკი', 'ბარტყი', 'ბელი', 'ნუკრი'] },
-  { title: 'ტყის ცხოველები', answers: ['ბოკვერი', 'ნუკრი', 'ბელი', 'გოჭი'] },
-  { title: 'ზღვის ბინადრები', answers: ['დელფინი', 'ვეშაპი', 'ზვიგენი', 'კიბორჩხალა'] },
-  { title: 'საბავშვო სათამაშოები', answers: ['თოჯინა', 'ბურთი', 'კუბიკი', 'ფაზლი'] },
-  { title: 'სამზარეულო', answers: ['კოვზი', 'ჭიქა', 'თეფში', 'დანა'] },
-  { title: 'ბაღის მცენარეები', answers: ['ვარდი', 'იასამანი', 'ტიტა', 'პიტნა'] },
-  { title: 'ამინდი', answers: ['წვიმა', 'თოვლი', 'ქარი', 'ელვა'] },
-  { title: 'ტრანსპორტი', answers: ['გემი', 'ტაქსი', 'ეტლი', 'ნავი'] },
-  { title: 'სკოლა', answers: ['წიგნი', 'კალამი', 'დაფა', 'ცარცი'] },
-  { title: 'ტყის მცენარეები', answers: ['მუხა', 'ფიჭვი', 'ნაძვი', 'არყი'] },
-  { title: 'ხილი', answers: ['ვაშლი', 'მსხალი', 'ატამი', 'ბალი'] },
-  { title: 'ბოსტნეული', answers: ['კიტრი', 'პომიდორი', 'სტაფილო', 'კარტოფილი'] },
-  { title: 'სახლი', answers: ['კარი', 'კედელი', 'აივანი', 'სახლი'] },
-  { title: 'ტანსაცმელი', answers: ['ქუდი', 'კაბა', 'ქამარი', 'შარფი'] },
-  { title: 'მუსიკა', answers: ['გიტარა', 'ფორტეპიანო', 'დოლი', 'ვიოლინო'] },
-  { title: 'სპორტი', answers: ['ბურთი', 'სირბილი', 'ცურვა', 'ჩოგანი'] },
-  { title: 'ზამთარი', answers: ['თხილამური', 'ციგა', 'თოვლი', 'ყინული'] },
-  { title: 'ზაფხული', answers: ['ზღვა', 'მზე', 'სათვალე', 'ქოლგა'] },
-  { title: 'ქალაქი', answers: ['ქუჩა', 'ხიდი', 'პარკი', 'შუქნიშანი'] }
+  { title: 'ფერები და საიდუმლოებები', answers: ['red', 'yellow', 'green', 'hint', 'love', 'hidden'] }
 ];
 let saladBoardLetters = saladScenarios[0].letters;
 let saladAnswers = saladScenarios[0].answers;
@@ -348,7 +328,6 @@ const saladBoard = document.querySelector('#salad-board');
 const saladWords = document.querySelector('#salad-words');
 const saladMessage = document.querySelector('#salad-message');
 const saladHint = document.querySelector('#salad-hint');
-const saladScenario = document.querySelector('#salad-scenario');
 const saladFound = new Set();
 let saladPath = [];
 let saladPointerDown = false;
@@ -373,15 +352,10 @@ function buildScenarioLetters(answers) {
   return letters.slice(0, 16);
 }
 
-function populateSaladScenarios() {
-  saladScenario.innerHTML = saladScenarios.map((scenario, index) => `<option value="${index}">${String(index + 1).padStart(2, '0')} · ${scenario.title}</option>`).join('');
-}
-
 function loadSaladScenario(index) {
   const scenario = saladScenarios[index];
   saladBoardLetters = scenario.letters || buildScenarioLetters(scenario.answers);
   saladAnswers = scenario.answers;
-  saladScenario.value = String(index);
   document.querySelector('.salad-heading strong').textContent = scenario.title;
   window.clearTimeout(saladClearTimer);
   window.clearTimeout(saladWordClearTimer);
@@ -485,7 +459,6 @@ function finishSaladPath() {
 
 document.addEventListener('pointerup', finishSaladPath);
 document.addEventListener('pointercancel', finishSaladPath);
-saladScenario.addEventListener('change', () => loadSaladScenario(Number(saladScenario.value)));
 document.querySelector('#salad-reset').addEventListener('click', () => {
   window.clearTimeout(saladClearTimer);
   window.clearTimeout(saladWordClearTimer);
@@ -512,10 +485,14 @@ saladHint.addEventListener('pointerdown', () => {
   }, 650);
 });
 ['pointerup', 'pointerleave', 'pointercancel'].forEach((eventName) => saladHint.addEventListener(eventName, () => clearTimeout(saladHintTimer)));
-populateSaladScenarios();
 loadSaladScenario(0);
 
-const wordleTarget = 'პრავა';
+const wordleScenarios = [
+  { title: 'თამაში 001', target: 'პრავა' },
+  { title: 'თამაში 002', target: 'სახლი' }
+];
+let wordleScenarioIndex = 0;
+let wordleTarget = wordleScenarios[wordleScenarioIndex].target;
 const wordleRows = 6;
 const wordleColumns = 5;
 const wordleGuesses = [];
@@ -524,6 +501,7 @@ const wordleLetterStates = {};
 const georgianLetters = ['ქწერტყუიოპ', 'ასდფგჰჯკლ', 'ზხცვბნმ'];
 const wordleBoard = document.querySelector('#wordle-board');
 const wordleMessage = document.querySelector('#wordle-message');
+const wordleScenario = document.querySelector('#wordle-scenario');
 
 function getWordleStatuses(guess) {
   const guessLetters = [...guess];
@@ -578,6 +556,23 @@ function renderKeyboard() {
   const keyboard = document.querySelector('#georgian-keyboard');
   keyboard.innerHTML = georgianLetters.map((line) => `<div class="keyboard-row">${[...line].map((letter) => `<button class="key ${wordleLetterStates[letter] || ''}" type="button" data-letter="${letter}">${letter}</button>`).join('')}</div>`).join('') + '<div class="keyboard-row"><button class="key key-wide" type="button" data-action="backspace">⌫</button><button class="key key-wide" type="button" data-action="enter">შეყვანა</button></div>';
   keyboard.querySelectorAll('.key').forEach((key) => key.addEventListener('click', () => handleWordleKey(key.dataset.letter, key.dataset.action)));
+}
+
+function resetWordle() {
+  wordleCurrent = '';
+  wordleGuesses.length = 0;
+  Object.keys(wordleLetterStates).forEach((letter) => delete wordleLetterStates[letter]);
+  wordleMessage.className = 'message';
+  wordleMessage.textContent = 'შეიყვანე პირველი სიტყვა.';
+  renderWordle();
+  renderKeyboard();
+}
+
+function populateWordleScenarios() {
+  wordleScenario.innerHTML = wordleScenarios.map((scenario, index) => (
+    `<option value="${index}">${String(index + 1).padStart(2, '0')} · ${scenario.title}</option>`
+  )).join('');
+  wordleScenario.value = String(wordleScenarioIndex);
 }
 
 function handleWordleKey(letter, action) {
@@ -664,18 +659,19 @@ dateHintForm.addEventListener('submit', (event) => {
   dateHintContent.hidden = false;
 });
 document.querySelector('#wordle-reset').addEventListener('click', () => {
-  wordleCurrent = '';
-  wordleGuesses.length = 0;
-  Object.keys(wordleLetterStates).forEach((letter) => delete wordleLetterStates[letter]);
-  wordleMessage.textContent = 'შეიყვანე პირველი სიტყვა.';
-  renderWordle();
-  renderKeyboard();
+  resetWordle();
+});
+wordleScenario.addEventListener('change', () => {
+  wordleScenarioIndex = Number(wordleScenario.value);
+  wordleTarget = wordleScenarios[wordleScenarioIndex].target;
+  resetWordle();
 });
 document.querySelectorAll('.nav-button').forEach((button) => button.addEventListener('click', () => {
   setView(button.dataset.view);
 }));
 renderEggProgress();
 renderConnectionsDayOptions();
+populateWordleScenarios();
 setView(localStorage.getItem(viewStorageKey) || 'connections');
 if (collectedEggs.size === 7) showEggCompletion();
 renderWordle();
