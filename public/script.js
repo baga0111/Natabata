@@ -320,7 +320,7 @@ currentWords = createScatteredWords(puzzleDays[currentDayIndex].words);
 renderGrid();
 
 const saladScenarios = [
-  { title: 'ფერები და საიდუმლოებები', answers: ['red', 'yellow', 'green', 'hint', 'love', 'hidden'] }
+  { title: 'ექვსი სიტყვა', answers: ['red', 'yellow', 'green', 'hint', 'love', 'hidden'] }
 ];
 let saladBoardLetters = saladScenarios[0].letters;
 let saladAnswers = saladScenarios[0].answers;
