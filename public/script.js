@@ -320,7 +320,11 @@ currentWords = createScatteredWords(puzzleDays[currentDayIndex].words);
 renderGrid();
 
 const saladScenarios = [
-  { title: 'ექვსი სიტყვა', answers: ['red', 'yellow', 'green', 'hint', 'love', 'hidden'] }
+  {
+    title: 'ექვსი სიტყვა',
+    answers: ['red', 'yellow', 'green', 'hint', 'love', 'hidden'],
+    letters: ['d', 'n', 'i', 'h', 'e', 'd', 't', 'w', 'y', 'e', 'v', 'o', 'r', 'g', 'l', 'l']
+  }
 ];
 let saladBoardLetters = saladScenarios[0].letters;
 let saladAnswers = saladScenarios[0].answers;
@@ -404,6 +408,11 @@ saladBoard.addEventListener('pointermove', (event) => {
 
 function extendSaladPath(tile) {
   if (!saladPointerDown || saladPath.includes(Number(tile.dataset.index))) return;
+  const previousIndex = saladPath.at(-1);
+  const nextIndex = Number(tile.dataset.index);
+  const rowDistance = Math.abs(Math.floor(previousIndex / 4) - Math.floor(nextIndex / 4));
+  const columnDistance = Math.abs((previousIndex % 4) - (nextIndex % 4));
+  if (rowDistance > 1 || columnDistance > 1) return;
   saladPath.push(Number(tile.dataset.index));
   tile.classList.add('active');
   saladMessage.textContent = saladPath.map((index) => saladBoardLetters[index]).join('');
