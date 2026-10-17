@@ -98,10 +98,33 @@ const connectionsDay = document.querySelector('#connections-day');
 const connectionsDayLabel = document.querySelector('#connections-day-label');
 const pageTitle = document.querySelector('#page-title');
 const titleMessagePanel = document.querySelector('#title-message-panel');
+const welcomePanel = document.querySelector('#welcome-panel');
+const welcomeForm = document.querySelector('#welcome-form');
+const welcomeKeyword = document.querySelector('#welcome-keyword');
+const welcomeMessage = document.querySelector('#welcome-message');
+const welcomeImages = document.querySelector('#welcome-images');
+const welcomeFinalMessage = document.querySelector('#welcome-final-message');
 let currentWords = puzzleDays[0].words;
 let currentDayIndex = 0;
 let mistakesLeft = 4;
 let gameOver = false;
+
+welcomeForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (welcomeKeyword.value.trim().toLocaleLowerCase() !== 'natlia') {
+    welcomeMessage.className = 'message error';
+    welcomeMessage.textContent = 'That keyword is not correct.';
+    return;
+  }
+  welcomeMessage.hidden = true;
+  welcomeForm.hidden = true;
+  welcomeImages.hidden = false;
+  welcomeImages.classList.add('jumping');
+  window.setTimeout(() => {
+    welcomeImages.hidden = true;
+    welcomeFinalMessage.hidden = false;
+  }, 2400);
+});
 
 function revealPageTitle() {
   titleMessagePanel.hidden = false;

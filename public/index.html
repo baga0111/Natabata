@@ -203,6 +203,28 @@
         </p>
       </div>
     </aside>
+    <aside id="welcome-panel" class="welcome-panel" aria-labelledby="welcome-title">
+      <div class="welcome-backdrop"></div>
+      <div class="welcome-card">
+        <h2 id="welcome-title">A little surprise</h2>
+        <p>Enter the keyword to unlock it.</p>
+        <form id="welcome-form">
+          <label for="welcome-keyword">Keyword</label>
+          <div class="welcome-input-row">
+            <input id="welcome-keyword" type="text" autocomplete="off" spellcheck="false" required />
+            <button class="submit-button" type="submit">Unlock</button>
+          </div>
+        </form>
+        <p id="welcome-message" class="message" aria-live="polite"></p>
+        <div id="welcome-images" class="welcome-images" hidden>
+          <img src="elami.png" alt="" />
+          <img src="correct.png" alt="" />
+          <img src="one-away.png" alt="" />
+          <img src="პრავა.png" alt="" />
+        </div>
+        <p id="welcome-final-message" class="welcome-final-message" hidden>STAY TUNED FOR THE EVENING MY LOVE</p>
+      </div>
+    </aside>
     <script src="script.js"></script>
   </body>
 </html>
