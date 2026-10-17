@@ -274,7 +274,6 @@ function submitGuess() {
     const largestGroup = Math.max(...Object.values(groupCounts));
       message.className = 'message error';
       message.textContent = largestGroup === 3 ? 'ერთი აკლია.' : 'ჯერ არა. სცადე სხვა კომბინაცია.';
-      if (largestGroup === 3) showReaction('one-away.png');
     mistakesLeft = Math.max(0, mistakesLeft - 1);
     document.querySelectorAll('.mistake-dots i')[mistakesLeft]?.classList.add('used');
     document.querySelectorAll('.word-card.selected').forEach((card) => {
@@ -712,7 +711,7 @@ renderKeyboard();
 const riddles = [
   { text: 'I am the tenth guest at the calendar table. I arrive after September, bring longer shadows, and wear a famous night of costumes. Who am I?', answers: ['october'], image: 'correct.png' },
   { text: 'I return to the same date each year. I can mark a wedding, a birth, or the day a company began. What am I?', answers: ['anniversary'], image: 'elami.png' },
-  { text: 'I may be wrapped, hidden, or handed over with a smile. I am not bought for the person who receives me. What am I?', answers: ['gift', 'present'], image: 'one-away.png' }
+  { text: 'I may be wrapped, hidden, or handed over with a smile. I am not bought for the person who receives me. What am I?', answers: ['gift', 'present'], image: 'correct.png' }
 ];
 const riddleText = document.querySelector('#riddle-text');
 const riddleNumber = document.querySelector('#riddle-number');
