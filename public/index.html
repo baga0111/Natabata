@@ -106,6 +106,77 @@
           <p id="riddle-message" class="message" aria-live="polite">ჩაწერე შენი პასუხი.</p>
           <button id="riddle-reset" class="text-button reset-button" type="button">თავიდან დაწყება</button>
         </section>
+        <section class="riddle-second-part" aria-labelledby="riddle-second-part-title">
+          <div class="riddle-second-part-heading">
+            <p class="eyebrow">დამატებითი გამოცანები</p>
+            <h2 id="riddle-second-part-title">Second part</h2>
+          </div>
+          <div class="riddle-second-part-card">
+            <div class="riddle-progress">
+              <span id="second-riddle-number">01</span><span>/ 03</span>
+            </div>
+            <h3 id="second-riddle-title">The Keyword</h3>
+            <p id="second-riddle-text" class="riddle-text"></p>
+            <form id="second-riddle-form" class="riddle-form">
+              <label for="second-riddle-answer">Keyword</label>
+              <div class="riddle-input-row">
+                <input id="second-riddle-answer" name="answer" type="text" autocomplete="off" spellcheck="false" required />
+                <button class="submit-button" type="submit">Unlock</button>
+              </div>
+            </form>
+            <p id="second-riddle-message" class="message" aria-live="polite">Enter the keyword to unlock the next hint.</p>
+          </div>
+        </section>
+        <section class="final-puzzle" aria-labelledby="final-puzzle-title">
+          <div class="riddle-second-part-heading">
+            <p class="eyebrow">ბოლო ეტაპი</p>
+            <h2 id="final-puzzle-title">The final puzzle</h2>
+          </div>
+          <div class="final-puzzle-card">
+            <p class="riddle-text">One last keyword opens the timeline.</p>
+            <form id="final-puzzle-form" class="riddle-form">
+              <label for="final-puzzle-keyword">Keyword</label>
+              <div class="riddle-input-row">
+                <input id="final-puzzle-keyword" name="keyword" type="text" autocomplete="off" spellcheck="false" required />
+                <button class="submit-button" type="submit">Unlock</button>
+              </div>
+            </form>
+            <p id="final-puzzle-message" class="message" aria-live="polite">Enter the keyword to unlock the final puzzle.</p>
+            <div id="final-puzzle-timeline" class="final-puzzle-timeline" hidden aria-label="Final puzzle video timeline">
+              <div class="timeline-line" aria-hidden="true"></div>
+              <article class="timeline-item" data-video-step="0">
+                <span class="timeline-marker">01</span>
+                <video controls playsinline preload="metadata">
+                  <source src="videos/1.m4v" type="video/x-m4v" />
+                </video>
+              </article>
+              <article class="timeline-item" data-video-step="1">
+                <span class="timeline-marker">02</span>
+                <video controls playsinline preload="metadata">
+                  <source src="videos/2.m4v" type="video/x-m4v" />
+                </video>
+              </article>
+              <article class="timeline-item" data-video-step="2">
+                <span class="timeline-marker">03</span>
+                <video controls playsinline preload="metadata">
+                  <source src="videos/3.m4v" type="video/x-m4v" />
+                </video>
+              </article>
+              <article class="timeline-item" data-video-step="3">
+                <span class="timeline-marker">04</span>
+                <video controls playsinline preload="metadata">
+                  <source src="videos/4.m4v" type="video/x-m4v" />
+                </video>
+              </article>
+              <article class="timeline-item" data-video-step="4">
+                <span class="timeline-marker">05</span>
+                <video controls playsinline preload="metadata">
+                  <source src="videos/5.m4v" type="video/x-m4v" />
+                </video>
+              </article>
+            </div>
+          </div>
+        </section>
       </section>
 
       <section id="wordle-view" class="view" aria-labelledby="wordle-title" hidden>
@@ -191,7 +262,7 @@
           </div>
         </form>
         <p id="date-hint-message" class="message" aria-live="polite"></p>
-        <p id="date-hint-content" class="date-hint-content" hidden>October 26, 2026</p>
+        <p id="date-hint-content" class="date-hint-content" hidden>October 20, 2026</p>
       </div>
     </aside>
     <aside id="title-message-panel" class="title-message-panel" hidden aria-labelledby="title-message">

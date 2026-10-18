@@ -760,3 +760,105 @@ document.querySelector('#riddle-reset').addEventListener('click', () => {
   riddleMessage.textContent = 'ჩაწერე შენი პასუხი.';
 });
 renderRiddle();
+
+const secondRiddles = [
+  {
+    title: 'The Keyword',
+    text: 'I am walls and a roof, yet I’m more than a house. I am the place you return to and the calm you feel when you arrive. In Arabic I’m one word that means both. Speak me, and the way opens.',
+    answer: 'sakan'
+  },
+  {
+    title: 'The place where you will get it',
+    text: 'Every story has a first page. Don’t look ahead. Look back. What you seek is waiting where the first chapter was written.',
+    answer: 'jvari'
+  },
+  {
+    title: "O'clock",
+    text: 'When the night has one hour left to live, and the clock stands one step shy of tomorrow, that is your moment.',
+    answer: '11pm'
+  }
+];
+const secondRiddleNumber = document.querySelector('#second-riddle-number');
+const secondRiddleTitle = document.querySelector('#second-riddle-title');
+const secondRiddleText = document.querySelector('#second-riddle-text');
+const secondRiddleForm = document.querySelector('#second-riddle-form');
+const secondRiddleAnswer = document.querySelector('#second-riddle-answer');
+const secondRiddleMessage = document.querySelector('#second-riddle-message');
+let secondRiddleIndex = 0;
+
+function normalizeSecondRiddleAnswer(value) {
+  return value.trim().toLocaleLowerCase().replace(/\s+/g, '');
+}
+
+function renderSecondRiddle() {
+  if (secondRiddleIndex >= secondRiddles.length) {
+    secondRiddleNumber.textContent = '✓';
+    secondRiddleTitle.textContent = 'All hints unlocked';
+    secondRiddleText.textContent = 'You found every hint in the second part.';
+    secondRiddleForm.hidden = true;
+    secondRiddleMessage.className = 'message';
+    secondRiddleMessage.textContent = 'Good job piso';
+    return;
+  }
+  const currentRiddle = secondRiddles[secondRiddleIndex];
+  secondRiddleNumber.textContent = String(secondRiddleIndex + 1).padStart(2, '0');
+  secondRiddleTitle.textContent = currentRiddle.title;
+  secondRiddleText.textContent = currentRiddle.text;
+  secondRiddleForm.hidden = false;
+  secondRiddleAnswer.value = '';
+  secondRiddleAnswer.focus();
+}
+
+secondRiddleForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const guess = normalizeSecondRiddleAnswer(secondRiddleAnswer.value);
+  const currentRiddle = secondRiddles[secondRiddleIndex];
+  if (guess !== currentRiddle.answer) {
+    secondRiddleMessage.className = 'message error';
+    secondRiddleMessage.textContent = 'That keyword is not correct.';
+    secondRiddleAnswer.select();
+    return;
+  }
+  secondRiddleIndex += 1;
+  secondRiddleMessage.className = 'message';
+  secondRiddleMessage.textContent = secondRiddleIndex < secondRiddles.length
+    ? 'Keyword accepted. The next hint is unlocked.'
+    : 'Good job piso';
+  renderSecondRiddle();
+});
+
+renderSecondRiddle();
+
+const finalPuzzleForm = document.querySelector('#final-puzzle-form');
+const finalPuzzleKeyword = document.querySelector('#final-puzzle-keyword');
+const finalPuzzleMessage = document.querySelector('#final-puzzle-message');
+const finalPuzzleTimeline = document.querySelector('#final-puzzle-timeline');
+const finalPuzzleVideos = [...document.querySelectorAll('.timeline-item')];
+
+function revealFinalPuzzleVideos() {
+  finalPuzzleTimeline.hidden = false;
+  finalPuzzleVideos.forEach((item, index) => {
+    window.setTimeout(() => {
+      item.classList.add('visible');
+      const video = item.querySelector('video');
+      video.muted = true;
+      video.play().catch(() => {
+        finalPuzzleMessage.textContent = 'Good job piso. Press play on each video to continue.';
+      });
+    }, index * 1000);
+  });
+}
+
+finalPuzzleForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (finalPuzzleKeyword.value.trim().toLocaleLowerCase() !== 'lampata') {
+    finalPuzzleMessage.className = 'message error';
+    finalPuzzleMessage.textContent = 'That keyword is not correct.';
+    finalPuzzleKeyword.select();
+    return;
+  }
+  finalPuzzleForm.hidden = true;
+  finalPuzzleMessage.className = 'message';
+  finalPuzzleMessage.textContent = 'Good job piso';
+  revealFinalPuzzleVideos();
+});
