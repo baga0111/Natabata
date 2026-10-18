@@ -832,10 +832,25 @@ renderSecondRiddle();
 const finalPuzzleForm = document.querySelector('#final-puzzle-form');
 const finalPuzzleKeyword = document.querySelector('#final-puzzle-keyword');
 const finalPuzzleMessage = document.querySelector('#final-puzzle-message');
+const finalPuzzleTrigger = document.querySelector('#final-puzzle-trigger');
+const finalPuzzleDialog = document.querySelector('#final-puzzle-dialog');
+const finalPuzzleReveal = document.querySelector('#final-puzzle-reveal');
 const finalPuzzleTimeline = document.querySelector('#final-puzzle-timeline');
 const finalPuzzleVideos = [...document.querySelectorAll('.timeline-item')];
 
+function closeFinalPuzzleDialog() {
+  finalPuzzleDialog.hidden = true;
+  finalPuzzleTrigger.setAttribute('aria-expanded', 'false');
+}
+
+function openFinalPuzzleDialog() {
+  finalPuzzleDialog.hidden = false;
+  finalPuzzleTrigger.setAttribute('aria-expanded', 'true');
+  finalPuzzleKeyword.focus();
+}
+
 function revealFinalPuzzleVideos() {
+  finalPuzzleReveal.hidden = false;
   finalPuzzleTimeline.hidden = false;
   finalPuzzleVideos.forEach((item, index) => {
     window.setTimeout(() => {
@@ -857,8 +872,12 @@ finalPuzzleForm.addEventListener('submit', (event) => {
     finalPuzzleKeyword.select();
     return;
   }
-  finalPuzzleForm.hidden = true;
+  closeFinalPuzzleDialog();
   finalPuzzleMessage.className = 'message';
   finalPuzzleMessage.textContent = 'Good job piso';
   revealFinalPuzzleVideos();
 });
+
+finalPuzzleTrigger.addEventListener('click', openFinalPuzzleDialog);
+document.querySelector('#close-final-puzzle').addEventListener('click', closeFinalPuzzleDialog);
+document.querySelector('[data-close-final-puzzle]').addEventListener('click', closeFinalPuzzleDialog);

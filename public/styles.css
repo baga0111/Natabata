@@ -216,7 +216,23 @@ h1 { max-width: 570px; margin: 0; font-family: 'Space Grotesk', sans-serif; font
 .riddle-second-part-card h3 { margin: 22px 0 0; color: var(--coral); font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 38px); letter-spacing: -0.05em; }
 .riddle-second-part-card .riddle-text { margin-top: 16px; }
 .final-puzzle { margin-top: 42px; }
-.final-puzzle-card { padding: 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
+.final-puzzle-tile { display: flex; width: 100%; flex-direction: column; align-items: flex-start; gap: 8px; padding: 24px 26px; border: 1px solid var(--line); color: var(--ink); background: rgba(255, 253, 248, .45); cursor: pointer; text-align: left; transition: 180ms ease; }
+.final-puzzle-tile:hover, .final-puzzle-tile[aria-expanded="true"] { border-color: var(--ink); background: var(--card); transform: translateY(-3px); box-shadow: var(--shadow); }
+.final-puzzle-tile .eyebrow { margin: 0; }
+.final-puzzle-tile strong { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 38px); letter-spacing: -0.05em; }
+.final-puzzle-tile > span:last-child { color: var(--muted); font-size: 13px; }
+.final-puzzle-dialog { position: fixed; inset: 0; z-index: 12; display: grid; place-items: center; padding: 24px; }
+.final-puzzle-dialog[hidden] { display: none; }
+.final-puzzle-backdrop { position: absolute; inset: 0; background: rgba(24, 35, 33, .86); backdrop-filter: blur(5px); cursor: pointer; }
+.final-puzzle-dialog-card { position: relative; width: min(92vw, 620px); padding: clamp(32px, 6vw, 70px); border: 2px solid var(--paper); border-radius: 6px; background: var(--card); box-shadow: 0 18px 0 rgba(0,0,0,.18); }
+.final-puzzle-dialog-card h2 { margin: 0; color: var(--coral); font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 6vw, 58px); letter-spacing: -0.05em; }
+.final-puzzle-dialog-card > p { margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+.final-puzzle-dialog-card .riddle-form { margin-top: 28px; }
+.final-puzzle-close { position: absolute; top: 16px; right: 18px; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: transparent; cursor: pointer; font-size: 28px; line-height: 1; }
+.final-puzzle-close:hover { border-color: var(--coral); background: var(--coral); }
+.final-puzzle-card { margin-top: 18px; padding: 26px; border: 1px solid var(--line); background: rgba(255, 253, 248, .45); }
+.final-puzzle-card[hidden] { display: none; }
+.final-puzzle-card h2 { margin: 0; color: var(--coral); font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 44px); letter-spacing: -0.06em; }
 .final-puzzle-card > .riddle-text { min-height: auto; font-size: clamp(18px, 3vw, 26px); }
 .final-puzzle-timeline { position: relative; display: grid; gap: 22px; margin-top: 30px; padding: 8px 0 8px 38px; }
 .final-puzzle-timeline[hidden] { display: none; }
