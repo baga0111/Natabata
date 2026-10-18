@@ -834,6 +834,7 @@ const finalPuzzleKeyword = document.querySelector('#final-puzzle-keyword');
 const finalPuzzleMessage = document.querySelector('#final-puzzle-message');
 const finalPuzzleTrigger = document.querySelector('#final-puzzle-trigger');
 const finalPuzzleDialog = document.querySelector('#final-puzzle-dialog');
+const finalPuzzleUnlock = document.querySelector('#final-puzzle-unlock');
 const finalPuzzleReveal = document.querySelector('#final-puzzle-reveal');
 const finalPuzzleTimeline = document.querySelector('#final-puzzle-timeline');
 const finalPuzzleVideos = [...document.querySelectorAll('.timeline-item')];
@@ -852,16 +853,26 @@ function openFinalPuzzleDialog() {
 function revealFinalPuzzleVideos() {
   finalPuzzleReveal.hidden = false;
   finalPuzzleTimeline.hidden = false;
-  finalPuzzleVideos.forEach((item, index) => {
-    window.setTimeout(() => {
-      item.classList.add('visible');
-      const video = item.querySelector('video');
-      video.muted = true;
-      video.play().catch(() => {
-        finalPuzzleMessage.textContent = 'Good job piso. Press play on each video to continue.';
-      });
-    }, index * 1000);
+  finalPuzzleVideos.forEach((item) => {
+    item.classList.remove('visible');
+    const video = item.querySelector('video');
+    video.pause();
+    video.currentTime = 0;
   });
+
+  const playTimelineVideo = (index) => {
+    const item = finalPuzzleVideos[index];
+    if (!item) return;
+    item.classList.add('visible');
+    const video = item.querySelector('video');
+    video.muted = true;
+    video.onended = () => playTimelineVideo(index + 1);
+    video.play().catch(() => {
+      finalPuzzleMessage.textContent = 'Good job piso. Press play to continue.';
+    });
+  };
+
+  playTimelineVideo(0);
 }
 
 finalPuzzleForm.addEventListener('submit', (event) => {
@@ -872,7 +883,7 @@ finalPuzzleForm.addEventListener('submit', (event) => {
     finalPuzzleKeyword.select();
     return;
   }
-  closeFinalPuzzleDialog();
+  finalPuzzleUnlock.hidden = true;
   finalPuzzleMessage.className = 'message';
   finalPuzzleMessage.textContent = 'Good job piso';
   revealFinalPuzzleVideos();

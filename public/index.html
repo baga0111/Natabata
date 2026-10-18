@@ -27,6 +27,7 @@
         <div class="topbar-actions">
           <button id="hint-button" class="hint-button" type="button" aria-expanded="false">Hint</button>
           <button id="second-hint-button" class="hint-button" type="button" aria-expanded="false">Second hint</button>
+          <button id="final-puzzle-trigger" class="hint-button final-puzzle-trigger" type="button" aria-expanded="false" aria-controls="final-puzzle-dialog">Final puzzle</button>
           <button class="icon-button" type="button" aria-label="როგორ ვითამაშოთ" title="როგორ ვითამაშოთ">?</button>
           <button class="icon-button" type="button" aria-label="სტატისტიკა" title="სტატისტიკა">▥</button>
         </div>
@@ -127,67 +128,6 @@
             <p id="second-riddle-message" class="message" aria-live="polite">Enter the keyword to unlock the next hint.</p>
           </div>
         </section>
-        <section class="final-puzzle" aria-labelledby="final-puzzle-title">
-          <button id="final-puzzle-trigger" class="final-puzzle-tile" type="button" aria-expanded="false" aria-controls="final-puzzle-dialog">
-            <span class="eyebrow">ბოლო ეტაპი</span>
-            <strong id="final-puzzle-title">The final puzzle</strong>
-            <span>Press to unlock</span>
-          </button>
-          <aside id="final-puzzle-dialog" class="final-puzzle-dialog" hidden aria-labelledby="final-puzzle-dialog-title">
-            <div class="final-puzzle-backdrop" data-close-final-puzzle></div>
-            <div class="final-puzzle-dialog-card">
-              <button id="close-final-puzzle" class="final-puzzle-close" type="button" aria-label="Close">×</button>
-              <h2 id="final-puzzle-dialog-title">The final puzzle</h2>
-              <p>Enter the keyword to unlock the final puzzle.</p>
-              <form id="final-puzzle-form" class="riddle-form">
-                <label for="final-puzzle-keyword">Keyword</label>
-                <div class="riddle-input-row">
-                  <input id="final-puzzle-keyword" name="keyword" type="text" autocomplete="off" spellcheck="false" required />
-                  <button class="submit-button" type="submit">Unlock</button>
-                </div>
-              </form>
-              <p id="final-puzzle-message" class="message" aria-live="polite"></p>
-            </div>
-          </aside>
-          <div id="final-puzzle-reveal" class="final-puzzle-card" hidden>
-            <h2>The final puzzle</h2>
-            <p class="riddle-text">One last keyword opens the timeline.</p>
-            <p id="final-puzzle-success" class="message">Good job piso</p>
-            <div id="final-puzzle-timeline" class="final-puzzle-timeline" hidden aria-label="Final puzzle video timeline">
-              <div class="timeline-line" aria-hidden="true"></div>
-              <article class="timeline-item" data-video-step="0">
-                <span class="timeline-marker">01</span>
-                <video controls playsinline preload="metadata">
-                  <source src="videos/1.m4v" type="video/x-m4v" />
-                </video>
-              </article>
-              <article class="timeline-item" data-video-step="1">
-                <span class="timeline-marker">02</span>
-                <video controls playsinline preload="metadata">
-                  <source src="videos/2.m4v" type="video/x-m4v" />
-                </video>
-              </article>
-              <article class="timeline-item" data-video-step="2">
-                <span class="timeline-marker">03</span>
-                <video controls playsinline preload="metadata">
-                  <source src="videos/3.m4v" type="video/x-m4v" />
-                </video>
-              </article>
-              <article class="timeline-item" data-video-step="3">
-                <span class="timeline-marker">04</span>
-                <video controls playsinline preload="metadata">
-                  <source src="videos/4.m4v" type="video/x-m4v" />
-                </video>
-              </article>
-              <article class="timeline-item" data-video-step="4">
-                <span class="timeline-marker">05</span>
-                <video controls playsinline preload="metadata">
-                  <source src="videos/5.m4v" type="video/x-m4v" />
-                </video>
-              </article>
-            </div>
-          </div>
-        </section>
       </section>
 
       <section id="wordle-view" class="view" aria-labelledby="wordle-title" hidden>
@@ -215,6 +155,36 @@
         <span class="footer-rule"></span>
       </footer>
     </main>
+    <aside id="final-puzzle-dialog" class="final-puzzle-dialog" hidden aria-labelledby="final-puzzle-dialog-title">
+      <div class="final-puzzle-backdrop" data-close-final-puzzle></div>
+      <div class="final-puzzle-dialog-card">
+        <button id="close-final-puzzle" class="final-puzzle-close" type="button" aria-label="Close">×</button>
+        <div id="final-puzzle-unlock">
+          <h2 id="final-puzzle-dialog-title">The final puzzle</h2>
+          <p>Enter the keyword to unlock the final puzzle.</p>
+          <form id="final-puzzle-form" class="riddle-form">
+            <label for="final-puzzle-keyword">Keyword</label>
+            <div class="riddle-input-row">
+              <input id="final-puzzle-keyword" name="keyword" type="text" autocomplete="off" spellcheck="false" required />
+              <button class="submit-button" type="submit">Unlock</button>
+            </div>
+          </form>
+          <p id="final-puzzle-message" class="message" aria-live="polite"></p>
+        </div>
+        <div id="final-puzzle-reveal" class="final-puzzle-card" hidden>
+          <h2>The final puzzle</h2>
+          <p id="final-puzzle-success" class="message">Good job piso</p>
+          <div id="final-puzzle-timeline" class="final-puzzle-timeline" hidden aria-label="Final puzzle video timeline">
+            <div class="timeline-line" aria-hidden="true"></div>
+            <article class="timeline-item" data-video-step="0"><span class="timeline-marker">01</span><video controls playsinline preload="metadata"><source src="videos/1.m4v" type="video/x-m4v" /></video></article>
+            <article class="timeline-item" data-video-step="1"><span class="timeline-marker">02</span><video controls playsinline preload="metadata"><source src="videos/2.m4v" type="video/x-m4v" /></video></article>
+            <article class="timeline-item" data-video-step="2"><span class="timeline-marker">03</span><video controls playsinline preload="metadata"><source src="videos/3.m4v" type="video/x-m4v" /></video></article>
+            <article class="timeline-item" data-video-step="3"><span class="timeline-marker">04</span><video controls playsinline preload="metadata"><source src="videos/4.m4v" type="video/x-m4v" /></video></article>
+            <article class="timeline-item" data-video-step="4"><span class="timeline-marker">05</span><video controls playsinline preload="metadata"><source src="videos/5.m4v" type="video/x-m4v" /></video></article>
+          </div>
+        </div>
+      </div>
+    </aside>
     <div id="reaction-modal" class="reaction-modal" hidden role="dialog" aria-modal="true" aria-label="რეაქცია">
       <div class="reaction-backdrop" data-close-reaction></div>
       <div class="reaction-card">
